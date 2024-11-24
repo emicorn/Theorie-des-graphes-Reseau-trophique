@@ -1,0 +1,6 @@
+Source,Target,Type,Id,Label,Weight
+1,2,Directed,11,2,2
+2,3,Directed,12,2,2
+3,4,Directed,13,2,2
+2,4,Directed,14,1,1
+4,1,Directed,15,1,1

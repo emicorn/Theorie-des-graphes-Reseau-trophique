@@ -1,0 +1,5 @@
+Id,Label,Type
+1,Plancton,Producteur
+2,Poisson,Consommateur Primaire
+3,Phoque,Consommateur Secondaire
+4,Orque,Prédateur Apex
