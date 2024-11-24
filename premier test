@@ -1,0 +1,58 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Nombre maximum d'espèces
+#define MAX_ESPECES 4
+
+// Structure pour une espèce
+typedef struct {
+    char nom[20];
+    int id; // Identifiant unique pour l'espèce
+} Espece;
+
+// Matrice d'adjacence pour représenter les relations
+int relations[MAX_ESPECES][MAX_ESPECES] = {0};
+
+// Tableau pour stocker les espèces
+Espece especes[MAX_ESPECES];
+
+// Fonction pour ajouter une espèce
+void ajouter_espece(int id, char *nom) {
+    especes[id].id = id;
+    snprintf(especes[id].nom, 20, "%s", nom);
+}
+
+// Fonction pour ajouter une relation (qui mange qui)
+void ajouter_relation(int predateur, int proie) {
+    relations[predateur][proie] = 1;
+}
+
+// Fonction pour afficher les relations
+void afficher_relations() {
+    printf("Relations trophiques :\n");
+    for (int i = 0; i < MAX_ESPECES; i++) {
+        for (int j = 0; j < MAX_ESPECES; j++) {
+            if (relations[i][j] == 1) {
+                printf("%s mange %s\n", especes[i].nom, especes[j].nom);
+            }
+        }
+    }
+}
+
+int main() {
+    // Ajouter les espèces
+    ajouter_espece(0, "Herbe");
+    ajouter_espece(1, "Sauterelles");
+    ajouter_espece(2, "Grenouilles");
+    ajouter_espece(3, "Serpents");
+
+    // Ajouter les relations
+    ajouter_relation(1, 0); // Sauterelles mangent Herbe
+    ajouter_relation(2, 1); // Grenouilles mangent Sauterelles
+    ajouter_relation(3, 2); // Serpents mangent Grenouilles
+
+    // Afficher les relations
+    afficher_relations();
+
+    return 0;
+}
