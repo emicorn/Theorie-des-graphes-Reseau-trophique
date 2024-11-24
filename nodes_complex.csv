@@ -1,0 +1,13 @@
+Id,Label,Type
+1,Champignon,Décomposeur
+2,Ver,Décomposeur
+3,Fourmi,Décomposeur
+4,Herbe,Producteur
+5,Arbre,Producteur
+6,Mousse,Producteur
+7,Lapin,Consommateur Primaire
+8,Rat,Consommateur Primaire
+9,Biche,Consommateur Primaire
+10,Guépard,Consommateur Secondaire
+11,Aigle,Consommateur Secondaire
+12,Tigre,Prédateur Apex
