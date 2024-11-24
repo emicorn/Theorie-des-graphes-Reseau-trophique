@@ -1,0 +1,10 @@
+Id,Label,Type
+1,Cactus,Producteur
+2,Insectes,Consommateur Primaire
+3,Lézard,Consommateur Secondaire
+4,Scorpion,Consommateur Secondaire
+5,Fennec,Consommateur Secondaire
+6,Serpent,Consommateur Secondaire
+7,Caracal,Prédateur
+8,Aigle,Prédateur Apex
+9,Parasite,Décomposeur
