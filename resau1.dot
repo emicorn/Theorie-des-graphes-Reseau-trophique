@@ -1,0 +1,11 @@
+digraph ChaineAlimentaire {
+    Herbe -> Zebre;
+    Herbe -> Gazelle;
+    Buisson -> Gazelle;
+
+    Zebre -> Lion;
+    Gazelle -> Lion;
+
+    Lion -> Crocodile;
+    Gazelle -> Crocodile;
+}
