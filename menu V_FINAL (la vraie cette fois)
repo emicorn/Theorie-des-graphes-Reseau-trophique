@@ -1,0 +1,179 @@
+#include "Header.h"
+
+int main() {
+    int choix;
+
+    do {
+        affichage_menu(); // Affichage du menu principal
+        scanf("%d", &choix); // Récupérer le choix de l'utilisateur
+
+        switch(choix) {
+            // Lorsque le joueur presse "1", cela affiche le menu correspondant au graphe numero 1
+            case 1:
+                choix = 1;
+                while (choix != 0) { // boucle 'while' qui tourne en permanance du fait des conditions
+                    system("cls");
+                    printf("\n\n\n\n\n\n\t\t\t\t\t\t\t\tChargement du menu secondaire...");
+                    sleep(2.5);
+                    system("cls");
+                    printf("\n\n\n\n\n\n"); // Titre du menu (adapté du site patorjk.com)
+                    printf("\t\t     /$$$$$$$$                            /$$       /$$                 /$$   /$$             /$$                                     / $$\n");
+                    printf("\t\t    |__  $$__/                           | $$      |__/                | $$$ | $$            | $$                                     | $$\n");
+                    printf("\t\t       | $$  /$$$$$$   /$$$$$$   /$$$$$$ | $$$$$$$  /$$  /$$$$$$$      | $$$$| $$  /$$$$$$  /$$$$$$   /$$  /$$  /$$  /$$$$$$  /$$$$$$ | $$   /$$\n");
+                    printf("\t\t       | $$ /$$__  $$ /$$__  $$ /$$__  $$| $$__  $$| $$ /$$_____/      | $$ $$ $$ /$$__  $$|_  $$_/  | $$ | $$ | $$ /$$__  $$/$$__  $$| $$  /$$/\n");
+                    printf("\t\t       | $$| $$  \\__/| $$  \\ $$| $$  \\ $$| $$  \\ $$| $$| $$            | $$  $$$$| $$$$$$$$  | $$    | $$ | $$ | $$| $$  \\ $$| $$ \\__/| $$$$$$/\n");
+                    printf("\t\t       | $$| $$      | $$  | $$| $$  | $$| $$  | $$| $$| $$            | $$\\ $$$| $$_____/   | $$ /$$| $$ | $$ | $$| $$  | $$| $$     | $$_  $$\n");
+                    printf("\t\t       | $$| $$      |  $$$$$$/| $$$$$$$/| $$  | $$| $$|  $$$$$$$      | $$ \\ $$|  $$$$$$$   | $$$$/ |  $$$$$/$$$$/|  $$$$$$/| $$     | $$ \\ $$\n");
+                    printf("\t\t       |__/|__/       \\______/ | $$____/ |__/  |__/|__/ \\______/       |__/  \\_/ \\______/     \\___/   \\____/\\____/  \\______/ |__/     |__/  \\__/\n");
+                    printf("\t\t                               | $$\n");
+                    printf("\t\t                               | $$\n");
+                    printf("\t\t                               |__/\n");
+
+                    printf("\n\t\t\t\t\t\t\t\t\t      Menu Scondaire\n");
+                    printf("\n\t\t\t\t\t\t\t    2. Etude des aspects structurels du graphe numero 1\n");
+                    printf("\n\t\t\t\t\t\t\t   2. Etude des aspects fonctionnels du graphe numero 1\n");
+                    printf("\n\t\t\t\t\t\t\t\t\t0. Retour au menu principal\n");
+                    printf("\n\t\t\t\t\t\t\t\t\t       Votre choix : ");
+                    scanf("%d", &choix);
+
+                    switch (choix) {
+                        case 1:
+                            //etude_structurelle_graphe_1();
+                            break;
+                        case 2:
+                            etude_fonctionnelle_graphe_1(); // Lancer l'étude fonctionnelle du graphe 1
+                            break;
+                        case 0:
+                            system("cls");
+                            printf("\n\n\n\n\n\n\t\t\t\t\t\t\t\tChargement du menu principal...");
+                            sleep(2.5);
+                            system("cls");
+                            break;
+                        default:
+                            system("cls");
+                            printf("\n\n\n\n\n\n\t\t\t\t\t\t\tChoix invalide : veuillez choisir un chiffre parmi 0, 1 et 2\n\n\n\n\n");
+                            sleep(3);
+                            system("cls");
+                            break;
+                    }
+                }
+                break;
+            // Lorsque le joueur presse "2", cela affiche le menu correspondant au graphe numero 2
+            case 2:
+                choix = 1;
+                while (choix != 0) {
+                    system("cls");
+                    printf("\n\n\n\n\n\n\t\t\t\t\t\t\t\tChargement du menu secondaire...");
+                    sleep(2.5);
+                    system("cls");
+                    printf("\n\n\n\n\n\n");
+                    printf("\t\t     /$$$$$$$$                            /$$       /$$                 /$$   /$$             /$$                                     / $$\n");
+                    printf("\t\t    |__  $$__/                           | $$      |__/                | $$$ | $$            | $$                                     | $$\n");
+                    printf("\t\t       | $$  /$$$$$$   /$$$$$$   /$$$$$$ | $$$$$$$  /$$  /$$$$$$$      | $$$$| $$  /$$$$$$  /$$$$$$   /$$  /$$  /$$  /$$$$$$  /$$$$$$ | $$   /$$\n");
+                    printf("\t\t       | $$ /$$__  $$ /$$__  $$ /$$__  $$| $$__  $$| $$ /$$_____/      | $$ $$ $$ /$$__  $$|_  $$_/  | $$ | $$ | $$ /$$__  $$/$$__  $$| $$  /$$/\n");
+                    printf("\t\t       | $$| $$  \\__/| $$  \\ $$| $$  \\ $$| $$  \\ $$| $$| $$            | $$  $$$$| $$$$$$$$  | $$    | $$ | $$ | $$| $$  \\ $$| $$ \\__/| $$$$$$/\n");
+                    printf("\t\t       | $$| $$      | $$  | $$| $$  | $$| $$  | $$| $$| $$            | $$\\ $$$| $$_____/   | $$ /$$| $$ | $$ | $$| $$  | $$| $$     | $$_  $$\n");
+                    printf("\t\t       | $$| $$      |  $$$$$$/| $$$$$$$/| $$  | $$| $$|  $$$$$$$      | $$ \\ $$|  $$$$$$$   | $$$$/ |  $$$$$/$$$$/|  $$$$$$/| $$     | $$ \\ $$\n");
+                    printf("\t\t       |__/|__/       \\______/ | $$____/ |__/  |__/|__/ \\______/       |__/  \\_/ \\______/     \\___/   \\____/\\____/  \\______/ |__/     |__/  \\__/\n");
+                    printf("\t\t                               | $$\n");
+                    printf("\t\t                               | $$\n");
+                    printf("\t\t                               |__/\n");
+
+                    printf("\n\t\t\t\t\t\t\t\t\t      Menu Scondaire\n");
+                    printf("\n\t\t\t\t\t\t\t    2. Etude des aspects structurels du graphe numero 2\n");
+                    printf("\n\t\t\t\t\t\t\t   2. Etude des aspects fonctionnels du graphe numero 2\n");
+                    printf("\n\t\t\t\t\t\t\t\t\t0. Retour au menu principal\n");
+                    printf("\n\t\t\t\t\t\t\t\t\t       Votre choix : ");
+                    scanf("%d", &choix);
+
+                    switch (choix) {
+                        case 1:
+                            //etude_structurelle_graphe_2();
+                            break;
+                        case 2:
+                            etude_fonctionnelle_graphe_2();
+                            break;
+                        case 0:
+                            system("cls");
+                            printf("\n\n\n\n\n\n\t\t\t\t\t\t\t\tChargement du menu principal...");
+                            sleep(2.5);
+                            system("cls");
+                            break;
+                        default:
+                            system("cls");
+                            printf("\n\n\n\n\n\n\t\t\t\t\t\t\tChoix invalide : veuillez choisir un parmi 0, 1 et 2\n\n\n\n\n");
+                            sleep(3);
+                            system("cls");
+                            break;
+                    }
+                }
+                break;
+            // Lorsque le joueur presse "3", cela affiche le menu correspondant au graphe numero 3
+            case 3:
+                choix = 1;
+                while (choix != 0) {
+                    system("cls");
+                    printf("\n\n\n\n\n\n\t\t\t\t\t\t\t\tChargement du menu secondaire...");
+                    sleep(2.5);
+                    system("cls");
+                    printf("\n\n\n\n\n\n");
+                    printf("\t\t     /$$$$$$$$                            /$$       /$$                 /$$   /$$             /$$                                     / $$\n");
+                    printf("\t\t    |__  $$__/                           | $$      |__/                | $$$ | $$            | $$                                     | $$\n");
+                    printf("\t\t       | $$  /$$$$$$   /$$$$$$   /$$$$$$ | $$$$$$$  /$$  /$$$$$$$      | $$$$| $$  /$$$$$$  /$$$$$$   /$$  /$$  /$$  /$$$$$$  /$$$$$$ | $$   /$$\n");
+                    printf("\t\t       | $$ /$$__  $$ /$$__  $$ /$$__  $$| $$__  $$| $$ /$$_____/      | $$ $$ $$ /$$__  $$|_  $$_/  | $$ | $$ | $$ /$$__  $$/$$__  $$| $$  /$$/\n");
+                    printf("\t\t       | $$| $$  \\__/| $$  \\ $$| $$  \\ $$| $$  \\ $$| $$| $$            | $$  $$$$| $$$$$$$$  | $$    | $$ | $$ | $$| $$  \\ $$| $$ \\__/| $$$$$$/\n");
+                    printf("\t\t       | $$| $$      | $$  | $$| $$  | $$| $$  | $$| $$| $$            | $$\\ $$$| $$_____/   | $$ /$$| $$ | $$ | $$| $$  | $$| $$     | $$_  $$\n");
+                    printf("\t\t       | $$| $$      |  $$$$$$/| $$$$$$$/| $$  | $$| $$|  $$$$$$$      | $$ \\ $$|  $$$$$$$   | $$$$/ |  $$$$$/$$$$/|  $$$$$$/| $$     | $$ \\ $$\n");
+                    printf("\t\t       |__/|__/       \\______/ | $$____/ |__/  |__/|__/ \\______/       |__/  \\_/ \\______/     \\___/   \\____/\\____/  \\______/ |__/     |__/  \\__/\n");
+                    printf("\t\t                               | $$\n");
+                    printf("\t\t                               | $$\n");
+                    printf("\t\t                               |__/\n");
+
+                    printf("\n\t\t\t\t\t\t\t\t\t      Menu Scondaire\n");
+                    printf("\n\t\t\t\t\t\t\t    2. Etude des aspects structurels du graphe numero 3\n");
+                    printf("\n\t\t\t\t\t\t\t   2. Etude des aspects fonctionnels du graphe numero 3\n");
+                    printf("\n\t\t\t\t\t\t\t\t\t0. Retour au menu principal\n");
+                    printf("\n\t\t\t\t\t\t\t\t\t       Votre choix : ");
+                    scanf("%d", &choix);
+
+                    switch (choix) {
+                        case 1:
+                            //etude_structurelle_graphe_3();
+                            break;
+                        case 2:
+                            etude_fonctionnelle_graphe_3();
+                            break;
+                        case 0:
+                            system("cls");
+                            printf("\n\n\n\n\n\n\t\t\t\t\t\t\t\tChargement du menu principal...");
+                            sleep(2.5);
+                            system("cls");
+                            break;
+                        default:
+                            system("cls");
+                            printf("\n\n\n\n\n\n\t\t\t\t\t\t\tChoix invalide : veuillez choisir un chiffre parmi 0, 1 et 2\n\n\n\n\n");
+                            sleep(3);
+                            system("cls");
+                            break;
+                    }
+                }
+                break;
+            // Lorsque le joueur presse "4", cela affiche un écran de sortie avec les crédits de développement pendant 30 secondes
+            case 4:
+                system("cls");
+                printf("\n\n\n\n\n\n\t\t\t\t\t\t\t\t\t\tA Bientot !");
+                printf("\n\n\n\n\n\n\t\t\t\tJeu developpe par Jacques Lagrange, Marc Vergnole, Emilien Cornillon et Willys Martias - ECE ing2 2024\n\n\n\n\n");
+                sleep(30);
+                system("cls");
+                break;
+                // Lorsque le joueur presse tout autre chiffre, cela affiche un écran d'erreur pendant 3 secondes avant de revenir au menu principal
+            default:
+                system("cls");
+                printf("\n\n\n\n\n\n\t\t\t\t\t\t\t  Choix invalide : veuillez choisir un chiffre entre 1 et 4\n\n\n\n\n");
+                sleep(3);
+                system("cls");
+                break;
+        }
+    } while (choix != 3); // Répéter jusqu'à ce que l'utilisateur choisisse de quitter
+    return 0;
+}
