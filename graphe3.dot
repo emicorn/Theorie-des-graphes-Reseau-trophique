@@ -1,0 +1,7 @@
+digraph G {
+    Plancton -> Orque [label="1"];
+    Plancton -> Poisson [label="2"];
+    Poisson -> Phoque [label="2"];
+    Poisson -> Orque [label="1"];
+    Phoque -> Orque [label="2"];
+}
