@@ -1,0 +1,16 @@
+digraph G {
+    Lapin -> Guepard [label="3"];
+    Lapin -> Tigre [label="3"];
+    Lapin -> Aigle [label="3"];
+    Herbe -> Lapin [label="4"];
+    Herbe -> Biche [label="4"];
+    Herbe -> Rat [label="4"];
+    Vert -> Aigle [label="1"];
+    Rat -> Guepard [label="3"];
+    Rat -> Tigre [label="1"];
+    Rat -> Aigle [label="3"];
+    Mousse -> Biche [label="2"];
+    Biche -> Tigre [label="3"];
+    Herbe -> Vert  [label="4"];
+    Mousse -> Vert [label="1"];
+}
