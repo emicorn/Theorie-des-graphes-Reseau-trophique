@@ -1,0 +1,359 @@
+#include "Header.h"
+
+// Fonction pour lire le fichier contenant le graphe (utile pour l'etude des aspects structurels)
+void lireGraphe(char *nomFichier, int   *ordre, int graphe[MAX_ESPECES][MAX_ESPECES], char sommets[MAX_ESPECES][10]) {
+    FILE *fp = fopen(nomFichier, "r");
+
+    fscanf(fp, "%d\n", ordre);  // Lecture du nombre de sommets (l'ordre du graphe)
+
+    for (int i=0; i<*ordre; i++) {  // Lecture des noms des sommets
+        fscanf(fp, "%s", sommets[i]);
+    }
+    for (int i = 0; i < *ordre; i++) {  // Parcours de la matrice adjacente
+        for (int j=0; j<*ordre; j++) {
+            fscanf(fp, "%d", &graphe[i][j]);
+        }
+    }
+    fclose(fp); // fermeture du fichier après l'avoir parcouru
+}
+
+// Fonction permettant d'afficher la liste des sommets et des arcs
+void affichage_sommets_arcs(int ordre, int graphe[MAX_ESPECES][MAX_ESPECES], char sommets[MAX_ESPECES][10]) {
+    system("cls");
+    printf("\n---------------------------------------------------------------------------");
+    printf("\n\n\tListe des successeurs et predecesseurs pour chaque sommet :\n");
+    for (int i = 0; i < ordre; i++) {
+        printf("\nSommet %s :\n\n", sommets[i]);
+        printf("  Successeur(s) : "); // Affichage des successeurs
+        int successeur = 0;
+        for (int j=0; j<ordre; j++) {
+            if (graphe[i][j]>0) {
+                printf("%s (poids : %d) ", sommets[j], graphe[i][j]);
+                successeur = 1;
+            }
+        }
+        if (!successeur) printf("Aucun successeur");    // En cas de l'abscence de successeurs, on affiche "Aucun predecesseurs"
+        printf("\n");
+
+        printf("  Predecesseur(s) : ");   // Affichage des prédecesseurs
+        int hasPredecesseur = 0;
+        for (int j=0; j<ordre; j++) {
+            if (graphe[j][i]>0) {
+                printf("%s (poids : %d) ", sommets[j], graphe[j][i]);
+                hasPredecesseur = 1;
+            }
+        }
+        if (!hasPredecesseur) printf("Aucun predecesseurs");  // En cas de l'abscence de prédecesseurs, on affiche "Aucun predecesseurs"
+        printf("\n");
+    }
+}
+
+// Fonction permettant de calculer le degré de chaque sommet
+void calcul_degres(int ordre, int graphe[MAX_ESPECES][MAX_ESPECES], char sommets[MAX_ESPECES][10]) {
+    printf("\n---------------------------------------------------------------------------");
+    printf("\n\n\t\t\tDegre des sommets :\n\n");
+    for (int i=0; i<ordre; i++) {
+        int degre_entrant=0, degre_sortant=0;
+
+        for (int j=0 ; j<ordre; j++) {   // Calcul du degré entrant des sommets
+            if (graphe[j][i] > 0) {
+                degre_entrant++;
+            }
+        }
+        for (int j=0; j<ordre; j++) {   // Calcul du degré sortant des sommets
+            if (graphe[i][j] > 0) {
+                degre_sortant++;
+            }
+        }
+        int degre_total = degre_entrant + degre_sortant;    // Calcul du degré total (somme des degrés entrant et sortant)
+        printf("\nSommet %s : Degre entrant = %d | Degre sortant = %d | Degre total = %d\n", sommets[i], degre_entrant, degre_sortant, degre_total);
+    }
+}
+
+// Fonction permettant de trouver le premier maillon de la chaine alimentaire (le/les producteur(s) primaire(s))
+void producteur_primaire(int ordre, int graphe[MAX_ESPECES][MAX_ESPECES], char sommets[MAX_ESPECES][10]) {
+    printf("\n---------------------------------------------------------------------------");
+    printf("\n\nProducteur(s) primaire(s) (aucun predecesseur) :\n");
+    int found = 0; // Variable permettant de vérifier si au moins un producteur primaire a été trouvé (sorte de variable de comptage)
+    for (int i=0; i<ordre; i++) {
+        int primaire = 1; // On suppose que le sommet est producteur
+        for (int j=0; j<ordre; j++) {
+            if (graphe[j][i] > 0) { // Si une arête pointe vers ce sommet alors c'est un producteur primaire
+                primaire = 0;
+                break;
+            }
+        }
+        if (primaire) {
+            printf(" %s\n", sommets[i]);
+            found = 1;  // Mise à jour de la variable de compte
+        }
+    }
+    if (!found) {   // Si la variable de compte reste nulle alors cela veut dire qu'il n'y a aucun producteur primaire dans le graphe
+        printf("Aucun producteur primaire trouve\n");
+    }
+}
+
+// Fonction permettant de trouver le/les dernier(s) maillon(s) de la chaine alimentaire (espèce(s) n'ayant pas de prédateur(s))
+void dernier_maillon(int ordre, int graphe[MAX_ESPECES][MAX_ESPECES], char sommets[MAX_ESPECES][10]) {
+    printf("\nDernier(s) maillon(s) (aucun successeur) :\n");
+    int found = 0; // Variable permettant de vérifier si au moins un dernier maillon a été trouvé (sorte de variable de comptage)
+    for (int i=0; i<ordre; i++) {
+        int dernier = 1; // On suppose que le sommet est un dernier maillon
+        for (int j=0; j<ordre; j++) {
+            if (graphe[i][j] > 0) { // Si une arête sort de ce sommet alors c'est un dernier maillon
+                dernier = 0;
+                break;
+            }
+        }
+        if (dernier) {
+            printf(" %s\n", sommets[i]);
+            found = 1;  // Mise à jour de la variable de compte
+        }
+    }
+    if (!found) {   // Si la variable de compte reste nulle alors cela veut dire qu'il n'y a aucun dernier maillon dans le graphe
+        printf("Aucun dernier maillon trouve\n");
+    }
+}
+
+// Fontion permettant de trouver les espèces n’ayant qu’une seule source d’alimentation
+void source_unique(int ordre, int graphe[MAX_ESPECES][MAX_ESPECES], char sommets[MAX_ESPECES][10]) {
+    printf("\nEspece(s) ayant une seule source d'alimentation :\n");
+    int found = 0;// Variable permettant de vérifier si au moins une espèce a été trouvé (sorte de variable de comptage)
+    for (int i=0; i<ordre; i++) {
+        int predecesseur = 0;
+        for (int j=0; j<ordre; j++) {
+            if (graphe[j][i] > 0) {
+                predecesseur++;
+            }
+        }
+        if (predecesseur == 1) {
+            printf(" %s\n", sommets[i]);
+            found = 1;
+        }
+    }
+    if (!found) {   // Si la variable de compte reste nulle alors cela veut dire qu'il n'y a aucune espèce avec une seule source d'alimentation dans le graphe
+        printf("Aucune espece avec une seule source d'alimentation trouvee\n");
+    }
+}
+
+
+// Fonction BFS permettant de trouver le chemin le plus court en nombre de sommets
+void BFS(int graphe[MAX_ESPECES][MAX_ESPECES], int ordre, int source, int destination, char sommets[MAX_ESPECES][10]) {
+    int visite[MAX_ESPECES] = {0};
+    int parent[MAX_ESPECES];
+    for (int i=0; i<ordre; i++) {
+        parent[i] = -1; // Initialement les sommets n'on pas d'antécédents (logique car le parcours du graphe n'a pas encore commencé)
+    }
+
+    int queue[MAX_ESPECES];
+    int front = 0, rear = 0;
+
+    queue[rear++] = source; // Initialisation de la queue
+    visite[source] = true;
+
+    // Parcours du graphe via l'algorithme BFS
+    while (front < rear) {
+        int u = queue[front++];
+        for (int v=0; v<ordre; v++) {
+            if (graphe[u][v] > 0 && !visite[v]) { // Vérification de l'existence d'une arête
+                visite[v] = true;
+                parent[v] = u;
+                queue[rear++] = v;
+
+                if (v == destination) { // Si on atteint la destination, on arrête le parcours du graphe
+                    break;
+                }
+            }
+        }
+    }
+
+    if (!visite[destination]) { // Affichage lorsque aucun chemin n'est trouvé
+        printf("\n---------------------------------------------------------------------------");
+        printf("\n\nAucun chemin trouve entre %s et %s\n", sommets[source], sommets[destination]);
+    } else {    // Affichage du chemin obtenu via le BFS
+        printf("\n---------------------------------------------------------------------------");
+        printf("\n\n\tChemin avec le moins de sommets entre %s et %s :\n\n", sommets[source], sommets[destination]);
+        int chemin[MAX_ESPECES];
+        int nb_de_sommets = 0;
+        for (int v = destination; v != -1; v = parent[v]) {
+            chemin[nb_de_sommets++] = v;
+        }
+        for (int i = nb_de_sommets - 1; i >= 0; i--) { // Affichage du chemin à l'aide de flèches
+            printf("%s%s", sommets[chemin[i]], (i == 0 ? "\n" : " -> "));
+        }
+        printf("\nNombre total de sommets traverses : %d\n", nb_de_sommets); // comptage du nombre de sommets parcourus et affichage de la valeur
+        printf("\n---------------------------------------------------------------------------");
+    }
+}
+
+// Fonction permettant de trouver le sommet avec l'arc de distance minimale non encore visité (Dijkstra)
+int distance_min(int distance[], int visite[], int ordre) {
+    int min = INT_MAX, nb_de_sommets_minimum = -1;
+    for (int v=0; v<ordre; v++) {
+        if (!visite[v] && distance[v] <= min) {
+            min = distance[v];
+            nb_de_sommets_minimum = v;
+        }
+    }
+    return nb_de_sommets_minimum;
+}
+
+// Algorithme de Dijkstra pour trouver le chemin le plus courten terme de pondération ("la distance minimale")
+void dijkstra(int graphe[MAX_ESPECES][MAX_ESPECES], int ordre, int source, int destination, char sommets[MAX_ESPECES][10]) {
+    int distance[MAX_ESPECES];
+    int visite[MAX_ESPECES] = {0};
+    int parent[MAX_ESPECES];
+    for (int i = 0; i < ordre; i++) {
+        distance[i] = INT_MAX;
+        parent[i] = -1;
+    }
+    distance[source] = 0;
+
+    for (int count = 0; count < ordre - 1; count++) {
+        int u = distance_min(distance, visite, ordre);
+        if (u == -1) break;
+        visite[u] = true;
+
+        for (int v = 0; v < ordre; v++) {
+            if (!visite[v] && graphe[u][v] > 0 && distance[u] != INT_MAX &&
+                distance[u] + graphe[u][v] < distance[v]) {
+                distance[v] = distance[u] + graphe[u][v];
+                parent[v] = u;
+            }
+        }
+    }
+
+    if (distance[destination] == INT_MAX) { // Affichage lorsque aucun chemin n'est trouvé
+        printf("\n---------------------------------------------------------------------------");
+        printf("\n\nAucun chemin trouve entre %s et %s\n", sommets[source], sommets[destination]);
+    } else {    // Affichage du chemin obtenu via Dijkstra
+        printf("\n---------------------------------------------------------------------------");
+        printf("\n\n    Chemin le plus court entre %s et %s (distance minimale) :\n\n", sommets[source], sommets[destination]);
+        int chemin[MAX_ESPECES];
+        int nb_de_sommets = 0;
+        for (int v = destination; v != -1; v = parent[v]) {
+            chemin[nb_de_sommets++] = v;
+        }
+        for (int i = nb_de_sommets - 1; i >= 0; i--) {
+            printf("%s%s", sommets[chemin[i]], (i == 0 ? "\n" : " -> "));
+        }
+        printf("\nDistance totale : %d\n", distance[destination]);  // Affichage de la sommme des poids des arcs parcourus (ici, cela représente "la distance totale")
+    }
+}
+
+void etude_structurelle_graphe_1() {
+    int ordre;
+    int graphe[MAX_ESPECES][MAX_ESPECES];
+    char sommets[MAX_ESPECES][10];
+    char sommet_initial[10];
+    char sommet_final[10];    // Initialisation des variables utilisées par BFS et Dijkstra
+    int source = -1;
+    int destination = -1;
+
+    lireGraphe("graphe1.txt", &ordre, graphe, sommets); // Appel de la fonction lireGraphe pour lire les information de la matrice adjacente
+    affichage_sommets_arcs(ordre, graphe, sommets); // Affichage des sommets prédécesseurs et successeurs
+    calcul_degres(ordre, graphe, sommets); // Affichage des degres entrants, sortants et degres totaux
+    producteur_primaire(ordre, graphe, sommets);    // Affichage du/des producteur(s) primaire(s)
+    dernier_maillon(ordre, graphe, sommets);    // Affichage du/des dernier(s) maillon(s)
+    source_unique(ordre, graphe, sommets);  // Affichage du/des espèce(s) ayant une seule source d'alimentation
+
+    printf("\n---------------------------------------------------------------------------");
+    printf("\n\nEntrez le sommet initial : ");
+    scanf("%s", sommet_initial);
+    printf("Entrez le sommet final : ");
+    scanf("%s", sommet_final);
+
+    for (int i = 0; i < ordre; i++) {
+        if (strcmp(sommets[i], sommet_initial) == 0) {
+            source = i;
+        }
+        if (strcmp(sommets[i], sommet_final) == 0) {
+            destination = i;
+        }
+    }
+
+    dijkstra(graphe, ordre, source, destination, sommets);  // Appel des algorithmes de parcours du graphe
+    BFS(graphe, ordre, source, destination, sommets);
+
+    printf("\n\n\tAppuyez sur une touche pour revenir au menu secondaire");
+    getch(); // Attente de l'appui sur une touche par l'utilisateur
+    system("cls");
+}
+
+void etude_structurelle_graphe_2() {
+    int ordre;
+    int graphe[MAX_ESPECES][MAX_ESPECES];
+    char sommets[MAX_ESPECES][10];
+    char sommet_initial[10];
+    char sommet_final[10];    // Initialisation des variables utilisées par BFS et Dijkstra
+    int source = -1;
+    int destination = -1;
+
+    lireGraphe("graphe2.txt", &ordre, graphe, sommets); // Appel de la fonction lireGraphe pour lire les information de la matrice adjacente
+    affichage_sommets_arcs(ordre, graphe, sommets); // Affichage des sommets prédécesseurs et successeurs
+    calcul_degres(ordre, graphe, sommets); // Affichage des degres entrants, sortants et degres totaux
+    producteur_primaire(ordre, graphe, sommets);    // Affichage du/des producteur(s) primaire(s)
+    dernier_maillon(ordre, graphe, sommets);    // Affichage du/des dernier(s) maillon(s)
+    source_unique(ordre, graphe, sommets);  // Affichage du/des espèce(s) ayant une seule source d'alimentation
+
+    printf("\n---------------------------------------------------------------------------");
+    printf("\n\nEntrez le sommet initial : ");
+    scanf("%s", sommet_initial);
+    printf("Entrez le sommet final : ");
+    scanf("%s", sommet_final);
+
+    for (int i = 0; i < ordre; i++) {
+        if (strcmp(sommets[i], sommet_initial) == 0) {
+            source = i;
+        }
+        if (strcmp(sommets[i], sommet_final) == 0) {
+            destination = i;
+        }
+    }
+
+    dijkstra(graphe, ordre, source, destination, sommets);  // Appel des algorithmes de parcours du graphe
+    BFS(graphe, ordre, source, destination, sommets);
+
+    printf("\n\n\tAppuyez sur une touche pour revenir au menu secondaire");
+    getch(); // Attente de l'appui sur une touche par l'utilisateur
+    system("cls");
+}
+
+void etude_structurelle_graphe_3() {
+    int ordre;
+    int graphe[MAX_ESPECES][MAX_ESPECES];
+    char sommets[MAX_ESPECES][10];
+    char sommet_initial[10];
+    char sommet_final[10];    // Initialisation des variables utilisées par BFS et Dijkstra
+    int source = -1;
+    int destination = -1;
+
+    lireGraphe("graphe3.txt", &ordre, graphe, sommets); // Appel de la fonction lireGraphe pour lire les information de la matrice adjacente
+    affichage_sommets_arcs(ordre, graphe, sommets); // Affichage des sommets prédécesseurs et successeurs
+    calcul_degres(ordre, graphe, sommets); // Affichage des degres entrants, sortants et degres totaux
+    producteur_primaire(ordre, graphe, sommets);    // Affichage du/des producteur(s) primaire(s)
+    dernier_maillon(ordre, graphe, sommets);    // Affichage du/des dernier(s) maillon(s)
+    source_unique(ordre, graphe, sommets);  // Affichage du/des espèce(s) ayant une seule source d'alimentation
+
+    printf("\n---------------------------------------------------------------------------");
+    printf("\n\nEntrez le sommet initial : ");
+    scanf("%s", sommet_initial);
+    printf("Entrez le sommet final : ");
+    scanf("%s", sommet_final);
+
+    for (int i = 0; i < ordre; i++) {
+        if (strcmp(sommets[i], sommet_initial) == 0) {
+            source = i;
+        }
+        if (strcmp(sommets[i], sommet_final) == 0) {
+            destination = i;
+        }
+    }
+
+    dijkstra(graphe, ordre, source, destination, sommets);  // Appel des algorithmes de parcours du graphe
+    BFS(graphe, ordre, source, destination, sommets);
+
+    printf("\n\n\tAppuyez sur une touche pour revenir au menu secondaire");
+    getch(); // Attente de l'appui sur une touche par l'utilisateur
+    system("cls");
+}
