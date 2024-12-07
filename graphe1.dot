@@ -1,0 +1,19 @@
+digraph G {
+    Caracal -> Aigle [label="1"];
+    Aigle -> Serpent [label="1"];
+    Aigle -> Lezard [label="2"];
+    Aigle -> Scorpion [label="3"];
+    Serpent -> Scorpion [label="2"];
+    Serpent -> Lezard [label="1"];
+    Lezard -> Insecte [label="2"];
+    Lezard -> Cactus [label="2"];
+    Parasite -> Serpent [label="1"];
+    Parasite -> Aigle [label="1"];
+    Parasite -> Caracal [label="1"];
+    Parasite -> Fenec [label="1"];
+    Insecte -> Fenec [label="1"];
+    Insecte -> Cactus [label="2"];
+    Fenec -> Aigle [label="2"];
+    Fenec -> Caracal [label="2"];
+    Scorpion -> Insecte [label="1"];
+}
