@@ -13,10 +13,10 @@
 typedef struct {
     double N_t;      // Population à l'intant t
     double r;        // Rythme de croissance
-    double K;        // Capacité de de portage de l'environnement
+    double K;        // Capacité de portage de l'environnement
 } Espece;
 // Nous avons choisi d'utiliser "double" au lieu de "float" car "double"
-// utilise 64bits (8 octets) et est plus adapté dans les calculs mathématiques
+// utilise 64bits (8 octets) et est donc plus adapté dans les calculs mathématiques
 // avec de grandes plages de valeurs
 
 void affichage_menu();
